@@ -1,7 +1,9 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <!-- <Game :game="gameList[1]" /> -->
-  <p>{{ gameList }}</p>
+  <div class="grid">
+    <p v-for="game in gameList" :key="game.id">
+      <Game :game="game" />
+    </p>
+  </div>
 </template>
 
 <script lang="ts">
@@ -45,12 +47,20 @@ export default class App extends Vue {
 </script>
 
 <style>
+body {
+  background-color: #1f302e;
+}
+
+.grid {
+  display: inline-grid;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
+  color: #ffa5a6;
 }
 </style>
