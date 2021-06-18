@@ -1,6 +1,6 @@
 <template>
   <div id="game">
-    <a v-bind:href="game.freetogame_profile_url" target="_blank">
+    <a>
       <img v-bind:src="game.thumbnail" v-bind:alt="game.short_description" />
       <div id="overlay">
         <div class="text">

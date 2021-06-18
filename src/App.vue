@@ -1,7 +1,10 @@
 <template>
+  <div v-if="gameInfo != 'Error'" class="gameInfo">
+    <GameInfo :gameInfo="gameInfo" />
+  </div>
   <div class="grid">
     <p v-for="game in gameList" :key="game.id">
-      <Game :game="game" />
+      <Game :game="game" @click="getGameInfo(game.id)" />
     </p>
   </div>
 </template>
@@ -10,16 +13,19 @@
 import { Options, Vue } from "vue-class-component";
 import axios from "axios";
 import Game from "./components/Game.vue";
+import GameInfo from "./components/GameInfo.vue";
 import GameType from "@/interfaces/GameType";
+import GameInfoType from "@/interfaces/GameInfoType";
 
 @Options({
   components: {
     Game,
+    GameInfo,
   },
 })
 export default class App extends Vue {
   gameList: GameType[] | "Error" = [];
-  gameID = 0;
+  gameInfo: GameInfoType | "Error" = "Error";
 
   created(): void {
     axios({
@@ -36,12 +42,26 @@ export default class App extends Vue {
       .catch(() => {
         this.gameList = "Error";
       });
-
-    console.log(this.gameList);
   }
 
-  get article(): GameType | "Error" {
-    return this.gameList != "Error" ? this.gameList[this.gameID] : "Error";
+  getGameInfo(game: number): void {
+    axios({
+      method: "GET",
+      url: "https://free-to-play-games-database.p.rapidapi.com/api/game",
+      headers: {
+        "x-rapidapi-key": "d19335f5f2mshd18d3d2f7703cebp124fe3jsn36f8a0db2672",
+        "x-rapidapi-host": "free-to-play-games-database.p.rapidapi.com",
+      },
+      params: { id: game },
+    })
+      .then((res) => {
+        this.gameInfo = res.data;
+        console.log(game);
+        console.log(this.gameInfo);
+      })
+      .catch(() => {
+        this.gameInfo = "Error";
+      });
   }
 }
 </script>
@@ -49,6 +69,13 @@ export default class App extends Vue {
 <style>
 body {
   background-color: #1f302e;
+}
+
+.gameInfo {
+  background-color: black;
+  margin: 1em;
+  padding: 1em;
+  position: absolute;
 }
 
 .grid {
