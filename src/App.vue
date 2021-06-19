@@ -62,6 +62,9 @@ export default class App extends Vue {
 </script>
 
 <style>
+*::-webkit-scrollbar {
+  display: none;
+}
 body {
   background-color: #1f302e;
 }

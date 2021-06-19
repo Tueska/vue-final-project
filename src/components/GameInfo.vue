@@ -7,31 +7,74 @@
           v-bind:alt="this.gameInfo.title + ' Thumbnail'"
         /><br />
         <h1>{{ this.gameInfo.title }}</h1>
+        <br />
         <a v-bind:href="gameInfo.game_url" target="_blank" class="button"
           >Play Game</a
-        >
-        <br /><br />
+        ><br /><br /><br />
+        <p><b class="blue">Platform:</b> <br />{{ this.gameInfo.platform }}</p>
+        <p><b class="blue">Genre:</b> <br />{{ this.gameInfo.genre }}</p>
         <p>
-          Genre: {{ this.gameInfo.genre }} | Platform:
-          {{ this.gameInfo.platform }}
+          <b class="blue">Release Date:</b> <br />{{
+            this.gameInfo.release_date
+          }}
         </p>
-        <p>Release Date: {{ this.gameInfo.release_date }}</p>
-        <p>Developer: {{ this.gameInfo.developer }}</p>
-        <p>Publisher: {{ this.gameInfo.publisher }}</p>
+        <p>
+          <b class="blue">Developer:</b> <br />{{ this.gameInfo.developer }}
+        </p>
+        <p>
+          <b class="blue">Publisher:</b> <br />{{ this.gameInfo.publisher }}
+        </p>
       </td>
       <td>
-        <h2>Description</h2>
+        <h2 class="blue">Description</h2>
         <p>{{ this.gameInfo.description }}</p>
+        <h2 class="blue">Minimum System requirements:</h2>
+        <br />
+        <table v-if="gameInfo.minimum_system_requirements.graphics != null">
+          <tr class="blue">
+            <td>OS:</td>
+            <td>Processor:</td>
+            <td>Memory:</td>
+            <td>Graphics:</td>
+            <td>Storage:</td>
+          </tr>
+          <tr>
+            <td>
+              {{ gameInfo.minimum_system_requirements.os }}
+            </td>
+            <td>
+              {{ gameInfo.minimum_system_requirements.processor }}
+            </td>
+            <td>
+              {{ gameInfo.minimum_system_requirements.memory }}
+            </td>
+            <td>
+              {{ gameInfo.minimum_system_requirements.graphics }}
+            </td>
+            <td>
+              {{ gameInfo.minimum_system_requirements.storage }}
+            </td>
+          </tr>
+        </table>
+
+        <p v-else>Unknown</p>
       </td>
     </table>
-    <div class="images">
-      <div class="image" v-for="img in this.gameInfo.screenshots" :key="img">
-        <img v-bind:src="img.image" @click="toggleEnlargement(img.id)" />
+    <div class="images" v-if="this.gameInfo.screenshots.length > 0">
+      <div
+        class="image"
+        v-for="(img, index) in this.gameInfo.screenshots"
+        :key="img"
+        :class="{ imageHighlight: index == 0 }"
+      >
+        <img v-bind:src="img.image" @click="selectImage(index)" />
       </div>
     </div>
-    <div v-bind:class="{ hideImageOverlay: !imageVisible }">
-      <img class="imageLarge" v-bind:src="this.gameInfo.screenshots[0].image" />
-    </div>
+    <img
+      v-if="this.gameInfo.screenshots.length > 0"
+      class="imageLarge"
+      v-bind:src="this.gameInfo.screenshots[this.imageID].image"
+    />
   </div>
 </template>
 
@@ -69,54 +112,83 @@ import { GameInfoTypeOrError, GameInfoType } from "@/interfaces/GameInfoType";
 export default class GameInfo extends Vue {
   game = 1;
   gameInfo: GameInfoTypeOrError = "Error";
-  imageVisible = false;
   imageID = 0;
 
-  toggleEnlargement(img: number): void {
+  selectImage(img: number): void {
+    var images = document.getElementsByClassName("image");
+    var i = images.length - 1;
+    while (i >= 0) {
+      images[i].classList.remove("imageHighlight");
+      i--;
+    }
+    images[img].classList.add("imageHighlight");
     this.imageID = img;
-    this.imageVisible = !this.imageVisible;
   }
 }
 </script>
 
 <style>
+img {
+  transition: 0.5s ease;
+  border-radius: 1em;
+}
+
 #gameInfo {
+  position: relative;
+  transition: 0.5s ease;
+  border-radius: 1em;
   text-align: left;
   background: #000000ec;
-  width: 40%;
+  width: 50%;
   height: 80%;
   padding: 2em;
+  -webkit-box-shadow: 10px 10px 5px 0px #222222bf;
+  -moz-box-shadow: 10px 10px 5px 0px #222222bf;
+  box-shadow: 10px 10px 5px 0px #222222bf;
   overflow-y: auto;
   overflow-x: hidden;
-  transform: translate(62.5%, 7.5%);
+  transform: translate(50%, 7.5%);
+}
+
+.blue {
+  color: #7b6fe2;
 }
 
 .images {
+  justify-content: center;
+  max-width: 100%;
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(auto-fit, 268px);
   column-gap: 1em;
+  row-gap: 1em;
 }
 
 .images .image img {
+  cursor: pointer;
   height: 150px;
 }
 
+.imageHighlight img,
+.images .image img:hover {
+  transition: none;
+  border: 0.25em solid white;
+  box-sizing: border-box;
+}
+
 .imageLarge {
-  position: fixed;
-  top: 0;
-  left: 0;
-  float: left;
   width: 100%;
-  height: 100% / 5;
-  z-index: 1000;
-  overflow: hidden;
+  position: relative;
+  margin-top: 1em;
+  border-radius: 1em;
 }
 
 .hideImageOverlay {
   display: none;
+  transition: display 0.5s ease-in;
 }
 
 .button {
+  transition: 0.5s ease;
   font: bold 1em Arial;
   text-decoration: none;
   background-color: #1f302e;
@@ -137,5 +209,29 @@ td {
 
 td h2 {
   margin: 0;
+}
+
+@media only screen and (max-width: 1671px) {
+  #gameInfo {
+    width: 90%;
+    margin: auto;
+    transform: none;
+  }
+
+  .imageLarge {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 920px) {
+  #gameInfo {
+    height: 90%;
+    width: 100%;
+    padding: 0.5em;
+  }
+
+  img {
+    height: 100px;
+  }
 }
 </style>

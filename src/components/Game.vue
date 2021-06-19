@@ -35,6 +35,14 @@ export default class Game extends Vue {
   display: inline-block;
   z-index: 500;
 }
+
+#game img {
+  border-radius: 1em;
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
 #game a {
   display: inline-block;
   position: relative;
@@ -57,6 +65,7 @@ export default class Game extends Vue {
   opacity: 0;
   transition: 0.5s ease;
   background-color: #1f302ed7;
+  border-radius: 1em;
 }
 #game a:hover #overlay {
   cursor: pointer;
