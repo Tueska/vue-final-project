@@ -1,11 +1,15 @@
 <template>
-  <div v-if="gameInfo != 'Error'" class="gameInfo">
-    <GameInfo :gameInfo="gameInfo" />
+  <div
+    v-bind:class="{ hideInfoBox: !infoBoxVisible }"
+    id="gameInfoBox"
+    @click="toggleInfobox()"
+  >
+    <GameInfo :game="this.gameID" />
   </div>
-  <div class="grid">
-    <p v-for="game in gameList" :key="game.id">
-      <Game :game="game" @click="getGameInfo(game.id)" />
-    </p>
+  <div class="grid" v-if="gameList != 'Error'">
+    <div v-for="game in gameList" :key="game.id">
+      <Game class="grid-item" :game="game" @click="getGameInfo(game.id)" />
+    </div>
   </div>
 </template>
 
@@ -15,7 +19,7 @@ import axios from "axios";
 import Game from "./components/Game.vue";
 import GameInfo from "./components/GameInfo.vue";
 import GameType from "@/interfaces/GameType";
-import GameInfoType from "@/interfaces/GameInfoType";
+import { GameInfoTypeOrError } from "@/interfaces/GameInfoType";
 
 @Options({
   components: {
@@ -25,7 +29,9 @@ import GameInfoType from "@/interfaces/GameInfoType";
 })
 export default class App extends Vue {
   gameList: GameType[] | "Error" = [];
-  gameInfo: GameInfoType | "Error" = "Error";
+  gameInfo: GameInfoTypeOrError = "Error";
+  infoBoxVisible = false;
+  gameID = 0;
 
   created(): void {
     axios({
@@ -44,24 +50,14 @@ export default class App extends Vue {
       });
   }
 
+  toggleInfobox(): void {
+    this.infoBoxVisible = !this.infoBoxVisible;
+    console.log(this.infoBoxVisible);
+  }
+
   getGameInfo(game: number): void {
-    axios({
-      method: "GET",
-      url: "https://free-to-play-games-database.p.rapidapi.com/api/game",
-      headers: {
-        "x-rapidapi-key": "d19335f5f2mshd18d3d2f7703cebp124fe3jsn36f8a0db2672",
-        "x-rapidapi-host": "free-to-play-games-database.p.rapidapi.com",
-      },
-      params: { id: game },
-    })
-      .then((res) => {
-        this.gameInfo = res.data;
-        console.log(game);
-        console.log(this.gameInfo);
-      })
-      .catch(() => {
-        this.gameInfo = "Error";
-      });
+    this.gameID = game;
+    this.toggleInfobox();
   }
 }
 </script>
@@ -71,15 +67,27 @@ body {
   background-color: #1f302e;
 }
 
-.gameInfo {
-  background-color: black;
-  margin: 1em;
+#gameInfoBox {
+  background-color: #00000080;
+  width: 100%;
+  height: 100%;
+  left: 0px;
   padding: 1em;
-  position: absolute;
+  position: fixed;
+  z-index: 100;
+  float: left;
+  overflow: hidden;
+  top: 0px !important;
+}
+
+.hideInfoBox {
+  display: none;
 }
 
 .grid {
-  display: inline-grid;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 1em;
 }
 
 #app {

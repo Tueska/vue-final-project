@@ -1,4 +1,4 @@
-export default interface GameInfoType {
+export type GameInfoType = {
   id: number;
   title: string;
   thumbnail: string;
@@ -14,7 +14,9 @@ export default interface GameInfoType {
   freetogame_profile_url: string;
   minimum_system_requirements: MinimumSystemRequirements;
   screenshots: Screenshot[];
-}
+};
+
+export type GameInfoTypeOrError = GameInfoType | "Error";
 
 interface MinimumSystemRequirements {
   os: string;

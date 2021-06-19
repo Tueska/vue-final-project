@@ -58,6 +58,7 @@ export default class Game extends Vue {
   background-color: #1f302ed7;
 }
 #game a:hover #overlay {
+  cursor: pointer;
   opacity: 1;
 }
 #game a .text {
