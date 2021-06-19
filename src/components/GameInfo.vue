@@ -45,9 +45,10 @@ export default class GameInfo extends Vue {
 <style>
 #gameInfo {
   text-align: left;
-  background: #00000080;
+  background: #000000ec;
   width: 40%;
   height: 80%;
   padding: 2em;
+  transform: translate(62.5%, 7.5%);
 }
 </style>

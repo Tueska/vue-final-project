@@ -86,7 +86,10 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: repeat(auto-fit, minmax(365px, 1fr));
+  grid-auto-flow: row;
+  column-gap: 1em;
+  row-gap: 2em;
   padding: 1em;
 }
 
