@@ -4,7 +4,7 @@
     id="gameInfoBox"
     @click="toggleInfobox()"
   >
-    <GameInfo :game="this.gameID" />
+    <GameInfo :game="this.gameID" v-on:click.stop />
   </div>
   <div class="grid" v-if="gameList != 'Error'">
     <div v-for="game in gameList" :key="game.id">
@@ -52,7 +52,6 @@ export default class App extends Vue {
 
   toggleInfobox(): void {
     this.infoBoxVisible = !this.infoBoxVisible;
-    console.log(this.infoBoxVisible);
   }
 
   getGameInfo(game: number): void {

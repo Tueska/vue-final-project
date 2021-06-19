@@ -33,6 +33,7 @@ export default class Game extends Vue {
   width: 365px;
   height: 200px;
   display: inline-block;
+  z-index: 500;
 }
 #game a {
   display: inline-block;
