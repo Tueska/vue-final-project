@@ -4,7 +4,9 @@
       <img v-bind:src="game.thumbnail" v-bind:alt="game.short_description" />
       <div id="overlay">
         <div class="text">
-          <h2 id="image">{{ game.title }}</h2>
+          <h2 id="image">
+            <u>{{ game.title }}</u>
+          </h2>
           <p id="description">{{ game.short_description }}</p>
           <p id="genre">{{ game.genre }}</p>
         </div>
@@ -49,6 +51,7 @@ export default class Game extends Vue {
   width: 365px;
   height: 206px;
 }
+
 #game a #image {
   display: block;
   width: 100%;
@@ -63,7 +66,7 @@ export default class Game extends Vue {
   height: 100%;
   width: 100%;
   opacity: 0;
-  transition: 0.5s ease;
+  transition: 0.25s ease;
   background-color: #1f302ed7;
   border-radius: 1em;
 }
@@ -71,16 +74,36 @@ export default class Game extends Vue {
   cursor: pointer;
   opacity: 1;
 }
+
 #game a .text {
   color: white;
   font-size: 1em;
   position: absolute;
   margin: 1em;
-  /* top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%); */
   text-align: center;
+}
+
+#image {
+  font-size: 1.25em;
+}
+
+p {
+  margin: 0.5em;
+}
+
+#description {
+  font-size: 0.9em;
+}
+
+#genre {
+  background-color: #ffa5a6;
+  color: #1f302e;
+  font-weight: bold;
+  padding: 0.5em;
+  border-radius: 1em;
+  display: inline-block;
+  -webkit-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
 }
 </style>

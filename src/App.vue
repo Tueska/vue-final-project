@@ -1,5 +1,8 @@
 <template>
   <Navbar @gameListUpdateEvent="gameListUpdateEvent" />
+  <h1 id="errormessage" v-if="this.gameList == 'Error'">
+    Error<br />API not reachable
+  </h1>
   <div
     v-bind:class="{ hideInfoBox: !infoBoxVisible }"
     id="gameInfoBox"
@@ -52,11 +55,16 @@ export default class App extends Vue {
 </script>
 
 <style>
+@font-face {
+  font-family: Raleway;
+  src: url(~@/assets/raleway.ttf) format("font-type");
+}
 *::-webkit-scrollbar {
   display: none;
 }
 
 * {
+  font-family: "Raleway", sans-serif;
   scroll-behavior: smooth;
 }
 
@@ -76,6 +84,10 @@ body {
   float: left;
   overflow: hidden;
   top: 0px !important;
+}
+
+#errormessage {
+  transform: translateY(100%);
 }
 
 .hideInfoBox {

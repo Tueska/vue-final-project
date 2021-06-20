@@ -19,6 +19,8 @@ CSS:
 
 [Lupe](https://iconscout.com/icon/magnifying-glass-3604345)
 
+[Chevron](https://iconscout.com/icon/chevron-down-1485703)
+
 ## Beschreibung / Architektur
 
 LOREM IPSUM
