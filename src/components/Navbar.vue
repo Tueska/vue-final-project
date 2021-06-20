@@ -4,9 +4,10 @@
       <img src="@/assets/magnifying-glass.svg" />
       <input
         id="searchInput"
-        v-model="search"
         type="text"
         placeholder="Search games..."
+        v-model="query"
+        @change="search"
       />
     </div>
   </div>
@@ -14,23 +15,24 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import { PropType } from "node_modules/vue/dist/vue";
 import axios from "axios";
 import GameType from "@/interfaces/GameType";
 
 @Options({
-  props: {},
+  prop: {
+    query: String,
+  },
   watch: {
     gameList: function(newList) {
       this.gameList = newList;
-      console.log("YEET");
       this.$emit("gameListUpdateEvent", newList);
     },
   },
 })
 export default class Navbar extends Vue {
   gameList: GameType[] | "Error" = [];
-  search!: string;
+  allGames!: GameType[];
+  query!: string;
 
   beforeCreate(): void {
     axios({
@@ -42,12 +44,26 @@ export default class Navbar extends Vue {
       },
     })
       .then((res) => {
+        this.allGames = res.data;
         this.gameList = res.data;
-        this.$emit("gameList", this.gameList);
       })
       .catch(() => {
         this.gameList = "Error";
       });
+  }
+
+  search(): void {
+    this.filterList(this.query);
+  }
+
+  filterList(query: string): void {
+    console.log(query);
+    var temp = this.allGames as GameType[];
+    var filteredList = temp.filter((element: GameType) => {
+      return element.title.toLowerCase().match(query.toLowerCase());
+    });
+
+    this.gameList = filteredList;
   }
 }
 </script>

@@ -37,15 +37,7 @@ export default class App extends Vue {
   gameID = 0;
 
   gameListUpdateEvent(value: GameType[]): void {
-    console.log("YOTE");
     this.gameList = value;
-  }
-
-  filterList(query: string): void {
-    console.log(query);
-    for (let i = 0; i < this.gameList.length; i++) {
-      console.log(this.gameList[i]);
-    }
   }
 
   toggleInfobox(): void {
