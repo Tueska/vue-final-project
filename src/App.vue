@@ -1,5 +1,5 @@
 <template>
-  <Navbar v-bind:class="{ hideInfoBox: infoBoxVisible }" :gameList="gameList" />
+  <Navbar v-model="gameList" />
   <div
     v-bind:class="{ hideInfoBox: !infoBoxVisible }"
     id="gameInfoBox"
@@ -32,11 +32,12 @@ import { GameInfoTypeOrError } from "@/interfaces/GameInfoType";
 })
 export default class App extends Vue {
   gameList: GameType[] | "Error" = [];
+  filteredList!: GameType[];
   gameInfo: GameInfoTypeOrError = "Error";
   infoBoxVisible = false;
   gameID = 0;
 
-  created(): void {
+  beforeCreate(): void {
     axios({
       method: "GET",
       url: "https://free-to-play-games-database.p.rapidapi.com/api/games",
@@ -47,10 +48,18 @@ export default class App extends Vue {
     })
       .then((res) => {
         this.gameList = res.data;
+        this.filterList("League");
       })
       .catch(() => {
         this.gameList = "Error";
       });
+  }
+
+  filterList(query: string): void {
+    console.log(query);
+    for (let i = 0; i < this.gameList.length; i++) {
+      console.log(this.gameList[i]);
+    }
   }
 
   toggleInfobox(): void {

@@ -30,7 +30,12 @@
         <p>{{ this.gameInfo.description }}</p>
         <h2 class="rose">Minimum System requirements:</h2>
         <br />
-        <table v-if="gameInfo.minimum_system_requirements.graphics != null">
+        <table
+          v-if="
+            gameInfo.platform.toLowerCase() != 'web browser' ||
+              gameInfo.minimum_system_requirements != null
+          "
+        >
           <tr class="rose">
             <td>OS:</td>
             <td>Processor:</td>
@@ -57,7 +62,7 @@
           </tr>
         </table>
 
-        <p v-else>Unknown</p>
+        <p v-else>Unknown / Web Browser Game</p>
       </td>
     </table>
     <div class="images" v-if="this.gameInfo.screenshots.length > 0">
@@ -215,9 +220,9 @@ td h2 {
 
 @media only screen and (max-width: 1671px) {
   #gameInfo {
-    width: 90%;
+    width: 95%;
     margin: auto;
-    transform: none;
+    transform: translateY(10%);
   }
 
   #imageLarge {

@@ -15,35 +15,49 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import { PropType } from "node_modules/vue/dist/vue";
+import axios from "axios";
 import GameType from "@/interfaces/GameType";
 
 @Options({
-  props: {
-    gameList: Object as PropType<GameType>,
-  },
-  computed: {
-    filteredGames() {
-      return this.gameList.filter((game: GameType) => {
-        console.log("hejj");
-        var list = game.title.toLowerCase().includes(this.search.toLowerCase());
-        console.log(list);
-      });
+  props: {},
+  watch: {
+    gameList: function(newList) {
+      this.gameList = newList;
+      this.$emit("gameList", this.gameList);
     },
   },
 })
 export default class Navbar extends Vue {
-  gameList!: GameType[];
+  gameList: GameType[] | "Error" = [];
   search!: string;
+
+  beforeCreate(): void {
+    axios({
+      method: "GET",
+      url: "https://free-to-play-games-database.p.rapidapi.com/api/games",
+      headers: {
+        "x-rapidapi-key": "d19335f5f2mshd18d3d2f7703cebp124fe3jsn36f8a0db2672",
+        "x-rapidapi-host": "free-to-play-games-database.p.rapidapi.com",
+      },
+    })
+      .then((res) => {
+        this.gameList = res.data;
+      })
+      .catch(() => {
+        this.gameList = "Error";
+      });
+  }
 }
 </script>
 
 <style scoped>
 #navbar {
   position: fixed;
-  z-index: 5000;
+  z-index: 50;
   width: 100%;
-  background-color: #3d5c58;
-  -webkit-box-shadow: 10px 10px 5px 0px #222222bf;
+  background-color: #2a413edd;
+  backdrop-filter: blur(10px);
+  -webkit-box-shadow: 10px 10px 5px 0px #222222e7;
   -moz-box-shadow: 10px 10px 5px 0px #222222bf;
   box-shadow: 10px 10px 5px 0px #222222bf;
   padding: 1em;
