@@ -176,21 +176,23 @@ export default class Navbar extends Vue {
 </script>
 
 <style scoped>
+* {
+  transition: 0.5s ease;
+}
 #navbar {
   position: fixed;
   z-index: 50;
   width: 100%;
-  background-color: #2a413edd;
+  background-color: #00000080;
   backdrop-filter: blur(10px);
   -webkit-box-shadow: 0px 10px 5px 0px #222222e7;
   -moz-box-shadow: 0px 10px 5px 0px #222222bf;
   box-shadow: 0px 10px 5px 0px #222222bf;
   padding: 1em;
-  margin: 0;
   top: 0;
   left: 0;
 }
-
+/* Searchbox links */
 input[type="text"] {
   background: none;
   width: 50%;
@@ -202,6 +204,7 @@ input[type="text"] {
 
 input[type="text"]::placeholder {
   color: lightgray;
+  font-style: italic;
 }
 
 input[type="text"]:focus {
@@ -209,10 +212,8 @@ input[type="text"]:focus {
 }
 
 #flexbox {
-  text-align: left;
   display: flex;
   align-items: baseline;
-  justify-content: start;
   justify-content: space-between;
 }
 
@@ -221,11 +222,7 @@ input[type="text"]:focus {
   width: 30%;
 }
 
-#drop {
-  text-align: right;
-  margin-right: 5em;
-}
-
+/* Lupe */
 #search img {
   vertical-align: bottom;
   height: 2.5em;
@@ -233,10 +230,11 @@ input[type="text"]:focus {
   transform: scaleX(-1);
 }
 
+/* Logo (Mitte) */
 #logo img {
   height: 5em;
   position: fixed;
-  transform: translate(-20%, -60%);
+  transform: translate(-70%, -60%);
 }
 
 .dropdown {
@@ -244,7 +242,7 @@ input[type="text"]:focus {
   display: inline-block;
   margin-top: 0.5em;
 }
-
+/* Chevrons neben Dropdownmenü */
 .dropdown img {
   height: 1.5em;
   vertical-align: bottom;
@@ -256,7 +254,9 @@ input[type="text"]:focus {
   -moz-box-shadow: 0px 10px 5px 0px #222222bf;
   box-shadow: 0px 10px 5px 0px #222222bf;
   color: lightgray;
-  display: none;
+  transition: 0.25s ease;
+  opacity: 0;
+  display: block;
   border-radius: 0.5em;
   position: absolute;
   z-index: 75;
@@ -266,7 +266,7 @@ input[type="text"]:focus {
 }
 
 .dropdown:hover .dropdown-content {
-  display: block;
+  opacity: 1;
 }
 
 .dropButton {
@@ -285,7 +285,7 @@ input[type="text"]:focus {
 input {
   padding: 0.5em;
 }
-
+/* Selected Text fett machen / Markieren */
 input[type="radio"]:checked ~ span {
   font-weight: bold;
   color: #ffa5a6;
@@ -294,7 +294,15 @@ input[type="radio"]:checked ~ span {
 input[type="radio"] {
   display: none;
 }
-</style>
 
-function game(game: any, arg1: (GameType: any) => any) { throw new
-Error("Function not implemented."); }
+@media only screen and (max-width: 875px) {
+  #logo {
+    display: none;
+  }
+
+  #search,
+  #drop {
+    width: 50%;
+  }
+}
+</style>

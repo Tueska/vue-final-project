@@ -5,7 +5,7 @@
       <div id="overlay">
         <div class="text">
           <h2 id="image">
-            <u>{{ game.title }}</u>
+            {{ game.title }}
           </h2>
           <p id="description">{{ game.short_description }}</p>
           <p id="genre">{{ game.genre }}</p>
