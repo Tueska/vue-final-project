@@ -1,4 +1,5 @@
 <template>
+  <Navbar v-bind:class="{ hideInfoBox: infoBoxVisible }" :gameList="gameList" />
   <div
     v-bind:class="{ hideInfoBox: !infoBoxVisible }"
     id="gameInfoBox"
@@ -19,12 +20,14 @@ import axios from "axios";
 import Game from "./components/Game.vue";
 import GameInfo from "./components/GameInfo.vue";
 import GameType from "@/interfaces/GameType";
+import Navbar from "./components/Navbar.vue";
 import { GameInfoTypeOrError } from "@/interfaces/GameInfoType";
 
 @Options({
   components: {
     Game,
     GameInfo,
+    Navbar,
   },
 })
 export default class App extends Vue {
@@ -65,12 +68,18 @@ export default class App extends Vue {
 *::-webkit-scrollbar {
   display: none;
 }
+
+* {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #1f302e;
 }
 
 #gameInfoBox {
-  background-color: #00000080;
+  background-color: #0000008e;
+  backdrop-filter: blur(10px);
   width: 100%;
   height: 100%;
   left: 0px;
@@ -89,6 +98,7 @@ body {
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(365px, 1fr));
+  margin-top: 6em;
   grid-auto-flow: row;
   column-gap: 1em;
   row-gap: 2em;
@@ -101,6 +111,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   margin-top: 60px;
-  color: #ffa5a6;
+  color: gainsboro;
 }
 </style>

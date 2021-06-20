@@ -11,27 +11,27 @@
         <a v-bind:href="gameInfo.game_url" target="_blank" class="button"
           >Play Game</a
         ><br /><br /><br />
-        <p><b class="blue">Platform:</b> <br />{{ this.gameInfo.platform }}</p>
-        <p><b class="blue">Genre:</b> <br />{{ this.gameInfo.genre }}</p>
+        <p><b class="rose">Platform:</b> <br />{{ this.gameInfo.platform }}</p>
+        <p><b class="rose">Genre:</b> <br />{{ this.gameInfo.genre }}</p>
         <p>
-          <b class="blue">Release Date:</b> <br />{{
+          <b class="rose">Release Date:</b> <br />{{
             this.gameInfo.release_date
           }}
         </p>
         <p>
-          <b class="blue">Developer:</b> <br />{{ this.gameInfo.developer }}
+          <b class="rose">Developer:</b> <br />{{ this.gameInfo.developer }}
         </p>
         <p>
-          <b class="blue">Publisher:</b> <br />{{ this.gameInfo.publisher }}
+          <b class="rose">Publisher:</b> <br />{{ this.gameInfo.publisher }}
         </p>
       </td>
       <td>
-        <h2 class="blue">Description</h2>
+        <h2 class="rose">Description</h2>
         <p>{{ this.gameInfo.description }}</p>
-        <h2 class="blue">Minimum System requirements:</h2>
+        <h2 class="rose">Minimum System requirements:</h2>
         <br />
         <table v-if="gameInfo.minimum_system_requirements.graphics != null">
-          <tr class="blue">
+          <tr class="rose">
             <td>OS:</td>
             <td>Processor:</td>
             <td>Memory:</td>
@@ -72,7 +72,7 @@
     </div>
     <img
       v-if="this.gameInfo.screenshots.length > 0"
-      class="imageLarge"
+      id="imageLarge"
       v-bind:src="this.gameInfo.screenshots[this.imageID].image"
     />
   </div>
@@ -89,7 +89,7 @@ import { GameInfoTypeOrError, GameInfoType } from "@/interfaces/GameInfoType";
   },
   watch: {
     game: function(newVal) {
-      this.imageVisible = false;
+      this.imageID = 0;
       axios({
         method: "GET",
         url: "https://free-to-play-games-database.p.rapidapi.com/api/game",
@@ -102,6 +102,7 @@ import { GameInfoTypeOrError, GameInfoType } from "@/interfaces/GameInfoType";
       })
         .then((res) => {
           this.gameInfo = res.data as GameInfoType;
+          document.getElementById("gameInfo")?.scrollTo(0, 0);
         })
         .catch(() => {
           this.gameInfo = "Error";
@@ -123,6 +124,7 @@ export default class GameInfo extends Vue {
     }
     images[img].classList.add("imageHighlight");
     this.imageID = img;
+    document.getElementById("imageLarge")?.scrollIntoView();
   }
 }
 </script>
@@ -150,8 +152,8 @@ img {
   transform: translate(50%, 7.5%);
 }
 
-.blue {
-  color: #7b6fe2;
+.rose {
+  color: #ffa5a6;
 }
 
 .images {
@@ -170,12 +172,12 @@ img {
 
 .imageHighlight img,
 .images .image img:hover {
-  transition: none;
+  transition: 0.025s cubic-bezier(1, 1, 1, 1);
   border: 0.25em solid white;
   box-sizing: border-box;
 }
 
-.imageLarge {
+#imageLarge {
   width: 100%;
   position: relative;
   margin-top: 1em;
@@ -218,7 +220,7 @@ td h2 {
     transform: none;
   }
 
-  .imageLarge {
+  #imageLarge {
     width: 100%;
   }
 }
@@ -230,7 +232,7 @@ td h2 {
     padding: 0.5em;
   }
 
-  img {
+  table td img {
     height: 100px;
   }
 }
