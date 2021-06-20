@@ -1,5 +1,5 @@
 <template>
-  <Navbar v-model="gameList" />
+  <Navbar @gameListUpdateEvent="gameListUpdateEvent" />
   <div
     v-bind:class="{ hideInfoBox: !infoBoxVisible }"
     id="gameInfoBox"
@@ -16,7 +16,6 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import axios from "axios";
 import Game from "./components/Game.vue";
 import GameInfo from "./components/GameInfo.vue";
 import GameType from "@/interfaces/GameType";
@@ -37,22 +36,9 @@ export default class App extends Vue {
   infoBoxVisible = false;
   gameID = 0;
 
-  beforeCreate(): void {
-    axios({
-      method: "GET",
-      url: "https://free-to-play-games-database.p.rapidapi.com/api/games",
-      headers: {
-        "x-rapidapi-key": "d19335f5f2mshd18d3d2f7703cebp124fe3jsn36f8a0db2672",
-        "x-rapidapi-host": "free-to-play-games-database.p.rapidapi.com",
-      },
-    })
-      .then((res) => {
-        this.gameList = res.data;
-        this.filterList("League");
-      })
-      .catch(() => {
-        this.gameList = "Error";
-      });
+  gameListUpdateEvent(value: GameType[]): void {
+    console.log("YOTE");
+    this.gameList = value;
   }
 
   filterList(query: string): void {

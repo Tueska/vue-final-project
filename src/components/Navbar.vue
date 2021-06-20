@@ -23,7 +23,8 @@ import GameType from "@/interfaces/GameType";
   watch: {
     gameList: function(newList) {
       this.gameList = newList;
-      this.$emit("gameList", this.gameList);
+      console.log("YEET");
+      this.$emit("gameListUpdateEvent", newList);
     },
   },
 })
@@ -42,6 +43,7 @@ export default class Navbar extends Vue {
     })
       .then((res) => {
         this.gameList = res.data;
+        this.$emit("gameList", this.gameList);
       })
       .catch(() => {
         this.gameList = "Error";
