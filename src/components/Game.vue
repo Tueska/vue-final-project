@@ -35,7 +35,6 @@ export default class Game extends Vue {
   width: 365px;
   height: 200px;
   display: inline-block;
-  z-index: 500;
 }
 
 #game img {
@@ -60,45 +59,47 @@ export default class Game extends Vue {
 #game a #overlay {
   position: absolute;
   top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   height: 100%;
   width: 100%;
   opacity: 0;
   transition: 0.25s ease;
   background-color: #1f302ed7;
+  backdrop-filter: blur(5px);
   border-radius: 1em;
 }
+
+/* Hover effect */
 #game a:hover #overlay {
   cursor: pointer;
   opacity: 1;
 }
 
+/* Text im Gameimage (Box selbst) */
 #game a .text {
   color: white;
-  font-size: 1em;
+  font-size: 0.9em;
   position: absolute;
-  margin: 1em;
+  width: 100%;
+  height: 100%;
+  padding: 1em;
+  transform: translateY(10%);
+  box-sizing: border-box;
   text-align: center;
 }
-
+/* Überschrift */
 #image {
   font-size: 1.25em;
 }
-
-p {
-  margin: 0.5em;
-}
-
+/* Short description */
 #description {
   font-size: 0.9em;
 }
-
+/* Genre "Pill" */
 #genre {
   background-color: #ffa5a6;
   color: #1f302e;
   font-weight: bold;
+  margin: 0;
   padding: 0.5em;
   border-radius: 1em;
   display: inline-block;
