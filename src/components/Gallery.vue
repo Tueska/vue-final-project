@@ -4,16 +4,16 @@
       class="image"
       v-for="(img, index) in this.screenshots"
       :key="img"
-      :class="{ imageHighlight: index == 0 }"
+      :class="{ imageHighlight: index == this.imageID }"
     >
       <img v-bind:src="img.image" @click="selectImage(index)" />
     </div>
   </div>
   <img
+    ref="imageLarge"
     v-if="this.screenshots.length > 0"
     id="imageLarge"
     v-bind:src="this.screenshots[this.imageID].image"
-    onerror="this."
   />
 </template>
 
@@ -32,15 +32,7 @@ export default class Gallery extends Vue {
   imageID = 0;
 
   selectImage(img: number): void {
-    let images = document.getElementsByClassName("image");
-    let i = images.length - 1;
-    while (i >= 0) {
-      images[i].classList.remove("imageHighlight");
-      i--;
-    }
-    images[img].classList.add("imageHighlight");
     this.imageID = img;
-    document.getElementById("imageLarge")?.scrollIntoView();
   }
 }
 </script>
