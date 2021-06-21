@@ -169,8 +169,8 @@ export default class Navbar extends Vue {
   }
 
   filterList(query: string): void {
-    var temp = this.allGames as GameType[];
-    var filteredList = temp.filter((element: GameType) => {
+    let temp = this.allGames as GameType[];
+    let filteredList = temp.filter((element: GameType) => {
       return element.title.toLowerCase().match(query.toLowerCase());
     });
 

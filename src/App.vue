@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import VueScreen from "vue-screen";
 import Game from "./components/Game.vue";
 import GameInfo from "./components/GameInfo.vue";
 import GameType from "@/interfaces/GameType";
@@ -27,6 +28,7 @@ import { GameInfoTypeOrError } from "@/interfaces/GameInfoType";
 
 @Options({
   components: {
+    VueScreen,
     Game,
     GameInfo,
     Navbar,

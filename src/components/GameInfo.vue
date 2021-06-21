@@ -120,8 +120,8 @@ export default class GameInfo extends Vue {
   description = "td";
 
   selectImage(img: number): void {
-    var images = document.getElementsByClassName("image");
-    var i = images.length - 1;
+    let images = document.getElementsByClassName("image");
+    let i = images.length - 1;
     while (i >= 0) {
       images[i].classList.remove("imageHighlight");
       i--;
@@ -131,6 +131,8 @@ export default class GameInfo extends Vue {
     document.getElementById("imageLarge")?.scrollIntoView();
   }
 
+  // Doch bei Vanilla JS geblieben, die meisten Packages machen dasselbe
+  // → Einen Eventlistener erstellen und wieder entfernen vorm löschen
   mounted(): void {
     window.addEventListener("resize", this.onResize);
   }
@@ -140,6 +142,7 @@ export default class GameInfo extends Vue {
   }
 
   onResize(): void {
+    console.log(this.$root);
     if (window.innerWidth <= 650) {
       this.description = "tr";
     } else {
