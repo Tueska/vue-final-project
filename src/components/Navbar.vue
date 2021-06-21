@@ -254,9 +254,7 @@ input[type="text"]:focus {
   -moz-box-shadow: 0px 10px 5px 0px #222222bf;
   box-shadow: 0px 10px 5px 0px #222222bf;
   color: lightgray;
-  transition: 0.25s ease;
-  opacity: 0;
-  display: block;
+  display: none;
   border-radius: 0.5em;
   position: absolute;
   z-index: 75;
@@ -266,7 +264,7 @@ input[type="text"]:focus {
 }
 
 .dropdown:hover .dropdown-content {
-  opacity: 1;
+  display: block;
 }
 
 .dropButton {

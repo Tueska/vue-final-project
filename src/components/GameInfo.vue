@@ -25,7 +25,7 @@
           <b class="rose">Publisher:</b> <br />{{ this.gameInfo.publisher }}
         </p>
       </td>
-      <td>
+      <component :is="description">
         <h2 class="rose">Description</h2>
         <p>{{ this.gameInfo.description }}</p>
         <h2 class="rose">Minimum System requirements:</h2>
@@ -36,34 +36,26 @@
               gameInfo.minimum_system_requirements != null
           "
         >
-          <tr class="rose">
-            <td>OS:</td>
-            <td>Processor:</td>
-            <td>Memory:</td>
-            <td>Graphics:</td>
-            <td>Storage:</td>
+          <tr>
+            <td class="rose">Processor:</td>
+            <td>{{ gameInfo.minimum_system_requirements.processor }}</td>
           </tr>
           <tr>
-            <td>
-              {{ gameInfo.minimum_system_requirements.os }}
-            </td>
-            <td>
-              {{ gameInfo.minimum_system_requirements.processor }}
-            </td>
-            <td>
-              {{ gameInfo.minimum_system_requirements.memory }}
-            </td>
-            <td>
-              {{ gameInfo.minimum_system_requirements.graphics }}
-            </td>
-            <td>
-              {{ gameInfo.minimum_system_requirements.storage }}
-            </td>
+            <td class="rose">Memory:</td>
+            <td>{{ gameInfo.minimum_system_requirements.memory }}</td>
+          </tr>
+          <tr>
+            <td class="rose">Graphics:</td>
+            <td>{{ gameInfo.minimum_system_requirements.graphics }}</td>
+          </tr>
+          <tr>
+            <td class="rose">Storage:</td>
+            <td>{{ gameInfo.minimum_system_requirements.storage }}</td>
           </tr>
         </table>
 
         <p v-else>Unknown / Web Browser Game</p>
-      </td>
+      </component>
     </table>
     <div class="images" v-if="this.gameInfo.screenshots.length > 0">
       <div
@@ -92,6 +84,11 @@ import { GameInfoTypeOrError, GameInfoType } from "@/interfaces/GameInfoType";
   props: {
     game: Number,
   },
+  data() {
+    return {
+      description: "",
+    };
+  },
   watch: {
     game: function(newVal) {
       this.imageID = 0;
@@ -119,6 +116,7 @@ export default class GameInfo extends Vue {
   game = 1;
   gameInfo: GameInfoTypeOrError = "Error";
   imageID = 0;
+  description = "td";
 
   selectImage(img: number): void {
     var images = document.getElementsByClassName("image");
@@ -130,6 +128,22 @@ export default class GameInfo extends Vue {
     images[img].classList.add("imageHighlight");
     this.imageID = img;
     document.getElementById("imageLarge")?.scrollIntoView();
+  }
+
+  mounted(): void {
+    window.addEventListener("resize", this.onResize);
+  }
+
+  beforeDestroy(): void {
+    window.removeEventListener("resize", this.onResize);
+  }
+
+  onResize(): void {
+    if (window.innerWidth <= 650) {
+      this.description = "tr";
+    } else {
+      this.description = "td";
+    }
   }
 }
 </script>
@@ -218,27 +232,62 @@ td h2 {
   margin: 0;
 }
 
-@media only screen and (max-width: 1671px) {
+@media only screen and (max-width: 1500px) {
   #gameInfo {
-    width: 95%;
-    margin: auto;
-    transform: translateY(10%);
+    width: 90%;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    transform: translate(5%, 10%);
   }
 
   #imageLarge {
-    width: 100%;
+    width: 95%;
+    transform: translateX(2.5%);
+    margin-bottom: 1em;
   }
 }
 
 @media only screen and (max-width: 920px) {
   #gameInfo {
     height: 90%;
+    transform: translateY(5%);
     width: 100%;
+    border-radius: 0;
     padding: 0.5em;
   }
 
   table td img {
     height: 100px;
+  }
+}
+
+@media only screen and (max-width: 835px) {
+  .image {
+    width: 100%;
+  }
+
+  .imageHighlight img,
+  .images .image img:hover {
+    border: none;
+    box-sizing: border-box;
+  }
+
+  #imageLarge {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  #gameInfo {
+    text-align: center;
+
+    box-sizing: border-box;
+  }
+  table td img {
+    height: 175px;
   }
 }
 </style>

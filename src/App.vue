@@ -73,12 +73,11 @@ body {
 }
 
 #gameInfoBox {
-  background-color: #0000008e;
+  background-color: #3d3d3d8e;
   backdrop-filter: blur(10px);
   width: 100%;
   height: 100%;
   left: 0px;
-  padding: 1em;
   position: fixed;
   z-index: 100;
   float: left;
