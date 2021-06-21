@@ -57,31 +57,20 @@
         <p v-else>Unknown / Web Browser Game</p>
       </component>
     </table>
-    <div class="images" v-if="this.gameInfo.screenshots.length > 0">
-      <div
-        class="image"
-        v-for="(img, index) in this.gameInfo.screenshots"
-        :key="img"
-        :class="{ imageHighlight: index == 0 }"
-      >
-        <img v-bind:src="img.image" @click="selectImage(index)" />
-      </div>
-    </div>
-    <img
-      v-if="this.gameInfo.screenshots.length > 0"
-      id="imageLarge"
-      v-bind:src="this.gameInfo.screenshots[this.imageID].image"
-      onerror="this."
-    />
+    <Gallery :screenshots="this.gameInfo.screenshots" />
   </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import axios from "axios";
+import Gallery from "./Gallery.vue";
 import { GameInfoTypeOrError, GameInfoType } from "@/interfaces/GameInfoType";
 
 @Options({
+  components: {
+    Gallery,
+  },
   props: {
     game: Number,
   },
@@ -153,11 +142,6 @@ export default class GameInfo extends Vue {
 </script>
 
 <style>
-img {
-  transition: 0.5s ease;
-  border-radius: 1em;
-}
-
 #gameInfo {
   position: relative;
   transition: 0.5s ease;
@@ -177,39 +161,6 @@ img {
 
 .rose {
   color: #ffa5a6;
-}
-
-.images {
-  justify-content: center;
-  max-width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 268px);
-  column-gap: 1em;
-  row-gap: 1em;
-}
-
-.images .image img {
-  cursor: pointer;
-  height: 150px;
-}
-
-.imageHighlight img,
-.images .image img:hover {
-  transition: 0.025s cubic-bezier(1, 1, 1, 1);
-  border: 0.25em solid white;
-  box-sizing: border-box;
-}
-
-#imageLarge {
-  width: 100%;
-  position: relative;
-  margin-top: 1em;
-  border-radius: 1em;
-}
-
-.hideImageOverlay {
-  display: none;
-  transition: display 0.5s ease-in;
 }
 
 .button {
@@ -246,12 +197,6 @@ td h2 {
     padding: 0;
     transform: translate(5%, 10%);
   }
-
-  #imageLarge {
-    width: 95%;
-    transform: translateX(2.5%);
-    margin-bottom: 1em;
-  }
 }
 
 @media only screen and (max-width: 920px) {
@@ -265,22 +210,6 @@ td h2 {
 
   table td img {
     height: 100px;
-  }
-}
-
-@media only screen and (max-width: 835px) {
-  .image {
-    width: 100%;
-  }
-
-  .imageHighlight img,
-  .images .image img:hover {
-    border: none;
-    box-sizing: border-box;
-  }
-
-  #imageLarge {
-    display: none;
   }
 }
 

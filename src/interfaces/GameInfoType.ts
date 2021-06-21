@@ -26,7 +26,7 @@ interface MinimumSystemRequirements {
   storage: string;
 }
 
-interface Screenshot {
+export interface Screenshot {
   id: number;
   image: string;
 }
