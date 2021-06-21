@@ -75,6 +75,4 @@ Erhält eine Screenshotliste über ein Interface in GameInfoType.ts und stellt d
 
 # Fremdcodebestandteile:
 
-CSS Grid-Template Magie (Games ansicht): [CSS-Tricks](https://css-tricks.com/auto-sizing-columns-css-grid-auto-fill-vs-auto-fit/)
-
 vue-window-size Plugin: [npmjs](https://www.npmjs.com/package/vue-window-size)
