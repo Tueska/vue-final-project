@@ -82,7 +82,6 @@ export default class Game extends Vue {
   width: 100%;
   height: 100%;
   padding: 1em;
-  transform: translateY(10%);
   box-sizing: border-box;
   text-align: center;
 }

@@ -55,17 +55,15 @@ export default class App extends Vue {
 </script>
 
 <style>
-@font-face {
-  font-family: Raleway;
-  src: url(~@/assets/raleway.ttf) format("font-type");
-}
-*::-webkit-scrollbar {
-  display: none;
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+* {
+  font-family: "Rubik", sans-serif;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
-* {
-  font-family: "Raleway", sans-serif;
-  scroll-behavior: smooth;
+*::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -104,7 +102,7 @@ body {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Raleway, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

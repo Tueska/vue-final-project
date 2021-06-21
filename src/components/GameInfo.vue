@@ -71,6 +71,7 @@
       v-if="this.gameInfo.screenshots.length > 0"
       id="imageLarge"
       v-bind:src="this.gameInfo.screenshots[this.imageID].image"
+      onerror="this."
     />
   </div>
 </template>
@@ -160,15 +161,15 @@ img {
   border-radius: 1em;
   text-align: left;
   background: #000000ec;
-  width: 50%;
-  height: 80%;
+  width: 60%;
+  height: 85%;
   padding: 2em;
   -webkit-box-shadow: 10px 10px 5px 0px #222222bf;
   -moz-box-shadow: 10px 10px 5px 0px #222222bf;
   box-shadow: 10px 10px 5px 0px #222222bf;
   overflow-y: auto;
   overflow-x: hidden;
-  transform: translate(50%, 7.5%);
+  transform: translate(30%, 5%);
 }
 
 .rose {

@@ -12,7 +12,7 @@
         />
       </div>
       <div id="logo">
-        <img src="@/assets/controller.svg" />
+        <img src="@/assets/controller.svg" @click="scrollToTop" />
       </div>
       <div id="drop">
         <div class="dropdown" @change="checkboxUpdate">
@@ -154,6 +154,10 @@ export default class Navbar extends Vue {
       });
   }
 
+  scrollToTop(): void {
+    window.scrollTo(0, 0);
+  }
+
   search(): void {
     this.filterList(this.query);
   }
@@ -183,7 +187,7 @@ export default class Navbar extends Vue {
   position: fixed;
   z-index: 50;
   width: 100%;
-  background-color: #00000080;
+  background-color: #000000c0;
   backdrop-filter: blur(10px);
   -webkit-box-shadow: 0px 10px 5px 0px #222222e7;
   -moz-box-shadow: 0px 10px 5px 0px #222222bf;
