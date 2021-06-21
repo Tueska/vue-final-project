@@ -1,6 +1,7 @@
 <template>
-  <div id="gameInfo" v-if="gameInfo != 'Error'">
+  <div ref="top" id="gameInfo" v-if="gameInfo != 'Error'">
     <table>
+      <!-- Links (Bild, PlayGame, Publisherinfo etc.) -->
       <td>
         <img
           v-bind:src="this.gameInfo.thumbnail"
@@ -25,11 +26,13 @@
           <b class="rose">Publisher:</b> <br />{{ this.gameInfo.publisher }}
         </p>
       </td>
+      <!-- Rechts → Description -->
       <component :is="description">
         <h2 class="rose">Description</h2>
         <p>{{ this.gameInfo.description }}</p>
         <h2 class="rose">Minimum System requirements:</h2>
         <br />
+        <!-- Sysreq -->
         <table
           v-if="
             gameInfo.platform.toLowerCase() != 'web browser' ||
@@ -57,6 +60,7 @@
         <p v-else>Unknown / Web Browser Game</p>
       </component>
     </table>
+
     <Gallery :screenshots="this.gameInfo.screenshots" />
   </div>
 </template>
@@ -74,12 +78,14 @@ import { GameInfoTypeOrError, GameInfoType } from "@/interfaces/GameInfoType";
   props: {
     game: Number,
   },
-  data() {
-    return {
-      description: "",
-    };
-  },
   watch: {
+    $windowWidth: function(windowWidth) {
+      if (windowWidth <= 650) {
+        this.description = "tr";
+      } else {
+        this.description = "td";
+      }
+    },
     game: function(newVal) {
       this.imageID = 0;
       axios({
@@ -94,7 +100,7 @@ import { GameInfoTypeOrError, GameInfoType } from "@/interfaces/GameInfoType";
       })
         .then((res) => {
           this.gameInfo = res.data as GameInfoType;
-          document.getElementById("gameInfo")?.scrollTo(0, 0);
+          (this.$refs.top as HTMLDivElement)?.scrollTo(0, 0);
         })
         .catch(() => {
           this.gameInfo = "Error";
@@ -107,37 +113,6 @@ export default class GameInfo extends Vue {
   gameInfo: GameInfoTypeOrError = "Error";
   imageID = 0;
   description = "td";
-
-  selectImage(img: number): void {
-    let images = document.getElementsByClassName("image");
-    let i = images.length - 1;
-    while (i >= 0) {
-      images[i].classList.remove("imageHighlight");
-      i--;
-    }
-    images[img].classList.add("imageHighlight");
-    this.imageID = img;
-    document.getElementById("imageLarge")?.scrollIntoView();
-  }
-
-  // Doch bei Vanilla JS geblieben, die meisten Packages machen dasselbe
-  // → Einen Eventlistener erstellen und wieder entfernen vorm löschen
-  mounted(): void {
-    window.addEventListener("resize", this.onResize);
-  }
-
-  beforeDestroy(): void {
-    window.removeEventListener("resize", this.onResize);
-  }
-
-  onResize(): void {
-    console.log(this.$root);
-    if (window.innerWidth <= 650) {
-      this.description = "tr";
-    } else {
-      this.description = "td";
-    }
-  }
 }
 </script>
 

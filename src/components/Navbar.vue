@@ -110,26 +110,8 @@ export default class Navbar extends Vue {
   platform!: string;
   sortby!: string;
 
-  beforeCreate(): void {
-    axios({
-      method: "GET",
-      url: "https://free-to-play-games-database.p.rapidapi.com/api/games",
-      headers: {
-        "x-rapidapi-key": "d19335f5f2mshd18d3d2f7703cebp124fe3jsn36f8a0db2672",
-        "x-rapidapi-host": "free-to-play-games-database.p.rapidapi.com",
-      },
-      params: {
-        "sort-by": this.querySortBy,
-        platform: this.queryPlatform,
-      },
-    })
-      .then((res) => {
-        this.allGames = res.data;
-        this.gameList = res.data;
-      })
-      .catch(() => {
-        this.gameList = "Error";
-      });
+  created(): void {
+    this.sendRequest();
   }
 
   sendRequest(): void {
@@ -158,14 +140,14 @@ export default class Navbar extends Vue {
     window.scrollTo(0, 0);
   }
 
-  search(): void {
-    this.filterList(this.query);
-  }
-
   checkboxUpdate(): void {
     this.querySortBy = this.sortby;
     this.queryPlatform = this.platform;
     this.sendRequest();
+  }
+
+  search(): void {
+    this.filterList(this.query);
   }
 
   filterList(query: string): void {

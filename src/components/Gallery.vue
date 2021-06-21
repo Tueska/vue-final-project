@@ -1,5 +1,6 @@
 <template>
   <div class="images" v-if="this.screenshots.length > 0">
+    <!-- Small Images -->
     <div
       class="image"
       v-for="(img, index) in this.screenshots"
@@ -9,6 +10,7 @@
       <img v-bind:src="img.image" @click="selectImage(index)" />
     </div>
   </div>
+  <!-- Large Image -->
   <img
     ref="imageLarge"
     v-if="this.screenshots.length > 0"
@@ -33,6 +35,7 @@ export default class Gallery extends Vue {
 
   selectImage(img: number): void {
     this.imageID = img;
+    (this.$refs.imageLarge as HTMLDivElement).scrollIntoView();
   }
 }
 </script>

@@ -1,8 +1,10 @@
 <template>
   <Navbar @gameListUpdateEvent="gameListUpdateEvent" />
+
   <h1 id="errormessage" v-if="this.gameList == 'Error'">
     Error<br />API not reachable
   </h1>
+
   <div
     v-bind:class="{ hideInfoBox: !infoBoxVisible }"
     id="gameInfoBox"
@@ -10,6 +12,7 @@
   >
     <GameInfo :game="this.gameID" v-on:click.stop />
   </div>
+
   <div class="grid" v-if="gameList != 'Error'">
     <div v-for="game in gameList" :key="game.id">
       <Game class="grid-item" :game="game" @click="getGameInfo(game.id)" />
@@ -39,6 +42,7 @@ export default class App extends Vue {
   infoBoxVisible = false;
   gameID = 0;
 
+  // Update Event von Navbar.vue
   gameListUpdateEvent(value: GameType[]): void {
     this.gameList = value;
   }
